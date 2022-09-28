@@ -56,12 +56,7 @@ static array_list read_list(byte* buf)
 
     while ((read = read_int(buf)) > 0)
     {
-        if (list.length == list.alloced) {
-            list.alloced *= 2;
-            list.array = realloc(list.array, list.alloced * sizeof(int));
-        }
-        list.array[list.length] = read;
-        list.length += 1;
+        array_list_append(&list, read);
     }
 
     return list;

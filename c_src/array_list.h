@@ -10,5 +10,6 @@ typedef struct array_list {
 } array_list;
 
 void array_list_init(array_list* arr);
+void array_list_append(array_list* list, int elem);
 
 #endif
