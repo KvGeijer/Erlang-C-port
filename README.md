@@ -1,6 +1,9 @@
 ## Interfacing Erlang and C ##
 
-This is just a test to see how an Erlang program can communicate with a program written in C (or really any language). This is done through communicating over a port and is described [here](https://www.erlang.org/doc/tutorial/c_port.html), but it can also be done by setting up a [C-node](https://www.erlang.org/doc/tutorial/cnode.html).
+This is just a test to see how an Erlang program can communicate with a program written in C (or really any language). This can be done in several ways, for example:
+* The first is through communicating over a port and is described [here](https://www.erlang.org/doc/tutorial/c_port.html),
+* The second is using a NIF, which is like directly calling the C function in Erlang. Unsafe but fast and convienient. It is described [here](https://www.erlang.org/doc/tutorial/nif.html),
+* A third option which we will not be exploring is setting up a [C-node](https://www.erlang.org/doc/tutorial/cnode.html). It creates a process which looks like an Erlang node to Erlang, but is really implemented in C.
 
 # Problem selection
 
@@ -10,5 +13,8 @@ The complexity of the problem should be quite low, but it would be fun to be abl
 
 I will compare several implementations:
 * Naive triple loop in Erlang through list comprehension,
-* Erlang communicating with same solution written in C,
-* Erlang communicating with smart solution in C utilizing that the list can be sorted.
+* Erlang communicating with C over a port using a naive solution,
+* Using a NIF in Erlang to use the naive C solution,
+* Using a C NIF in Erlang with the smart solution.
+
+It would be nice to get some real performance test here. But there data I have so far is not large enough to notice much difference.

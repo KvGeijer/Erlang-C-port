@@ -2,17 +2,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define SUM 2020
-#define STARTING_LENGTH 64
+#include "array_list.h"
+#include "naive_solution.h"
+
 #define PACKET_SIZE 2       // The size of the packet header describing the size of the rest from Erlang
 
-typedef struct array_list {
-    unsigned int length;
-    unsigned int alloced;
-    unsigned int* array;
-} array_list;
-
 typedef unsigned char byte;
+
 
 // Reads message into buffer, returns the number of bytes read
 static int read_to_buf(byte* buf, int len)
@@ -56,10 +52,7 @@ static array_list read_list(byte* buf)
 {
     int read;
     array_list list;
-
-    list.alloced = STARTING_LENGTH;
-    list.length = 0;
-    list.array = malloc(STARTING_LENGTH * sizeof(*list.array));
+    array_list_init(&list);
 
     while ((read = read_int(buf)) > 0)
     {
@@ -72,27 +65,6 @@ static array_list read_list(byte* buf)
     }
 
     return list;
-}
-
-
-static void find_result(array_list* list, int* result)
-{
-    for (int i = 0; i < list->length; i++)
-    {
-        for (int j = i; j < list->length; j++)
-        {
-            for (int k = j; k < list->length; k++)
-            {
-                if (list->array[i] + list->array[j] + list->array[k] == SUM)
-                {
-                    result[0] = list->array[i];
-                    result[1] = list->array[j];
-                    result[2] = list->array[k];
-                    return ;
-                }
-            }
-        }
-    }
 }
 
 
@@ -126,12 +98,12 @@ static void send_msg(int msg, int len)
 int main()
 {
     byte buf[10];
-    int result[3];
+    int sum, result[3];
     array_list list;
 
-
+    sum = read_int(buf);
     list = read_list(buf);
-    find_result(&list, result);
+    naive_find_result(&list, sum, result);
 
     for (int i = 0; i < 3; i++)
     {
