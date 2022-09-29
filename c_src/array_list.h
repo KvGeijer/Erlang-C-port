@@ -1,8 +1,6 @@
 #ifndef ARRAY_LIST_H
 #define ARRAY_LIST_H
 
-#define STARTING_LENGTH 64
-
 typedef struct array_list {
     unsigned int length;
     unsigned int alloced;
